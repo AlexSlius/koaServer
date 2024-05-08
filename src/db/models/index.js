@@ -1,5 +1,5 @@
-import fs from "fs";
-import { basename, dirname } from "path";
+import fs from "fs/promises";
+import { dirname } from "path";
 import { Sequelize, DataTypes } from "sequelize";
 import { fileURLToPath } from 'url';
 
@@ -11,28 +11,28 @@ const db = {};
 
 const sequelize = new Sequelize(congifDB());
 
-// fs.readdirSync(__dirname)
-// console.log(fs.readdirSync(__dirname));
-//   .filter(file => {
-//     return (
-//       file.indexOf('.') !== 0 &&
-//       file !== basename &&
-//       file.slice(-3) === '.js' &&
-//       file.indexOf('.test.js') === -1
-//     );
-//   })
-//   .forEach(file => {
-//     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-//     db[model.name] = model;
-//   });
+fs.readdir(__dirname)
+    .then(files => {
+        files.filter(file => (
+            file.indexOf('.') !== 0 &&
+            file.slice(-3) === '.js' &&
+            file.indexOf('.test.js') === -1 &&
+            file.indexOf('index.js') === -1
+        ))
+            .forEach(async fileName => {
+                let modelImport = await import(`./${fileName}`);
+                let model = modelImport.default(sequelize, DataTypes);
+                db[model.name] = model;
+            });
+    });
 
-// Object.keys(db).forEach(modelName => {
-//   if (db[modelName].associate) {
-//     db[modelName].associate(db);
-//   }
-// });
+Object.keys(db).forEach(modelName => {
+    if (db[modelName].associate) {
+        db[modelName].associate(db);
+    }
+});
 
-// db.sequelize = sequelize;
-// db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
 
-// module.exports = db;
+export { db };

@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  mysql:
+    image: mysql:8
+    restart: always
+    container_name: 'db'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'I0p9KQ2l6deY2'
+      MYSQL_DATABASE: 'crm_bot'
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: 'I0p9KQ2l6deY2'
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
