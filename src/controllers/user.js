@@ -1,3 +1,4 @@
+import { answerSuccessfully, errorThrowClient, errorThrowServer } from "../utils/answer.js";
 import { validateCreateUser } from "../validation/user.js";
 
 class User {
@@ -5,24 +6,21 @@ class User {
         console.log("ctx: ", ctx);
         ctx.body = 'Список користувачів';
     }
+
     async createUser(ctx) {
-        const { errorMessage, value } = validateCreateUser(ctx.request.body);
+        const { errorMessage, value } = validateCreateUser({ data: ctx.request.body });
 
         if (errorMessage) {
-            ctx.status = 400;
-            ctx.body = {
-                error: true,
-                errorMessage
-            };
-            return;
+            return errorThrowClient({ ctx, errorMessage });
         }
 
-        const { name, lastName, age } = value;
+        try {
+            const { name, lastName, age } = value;
 
-        console.log(name, lastName, age);
-
-        ctx.status = 200;
-        ctx.body = { message: 'Data validated and processed successfully' };
+            answerSuccessfully({ ctx, data: { name, lastName, age } })
+        } catch (error) {
+            errorThrowServer({ ctx, error });
+        }
     }
 }
 

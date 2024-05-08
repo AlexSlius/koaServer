@@ -8,6 +8,7 @@ import koaStatic from "koa-static";
 import bodyParser from 'koa-bodyparser';
 
 import routersAll from "./routes/index.js";
+import { middleWareError } from "./middleware/error.js";
 
 const app = new Koa();
 const router = new Router();
@@ -20,11 +21,14 @@ app.use(cors());
 app.use(json());
 app.use(koaStatic(staticDir));
 app.use(bodyParser());
+app.use(middleWareError);
 
 router.use('/api', routersAll.routes());
 
 // Adding routes to the application
 app.use(router.routes());
 app.use(router.allowedMethods());
+
+
 
 export default app;
