@@ -14,7 +14,7 @@ export const errorThrowClient = ({ ctx, status = 400, errorMessage }) => {
     };
 }
 
-export const answerSuccessfully = ({ ctx, status = 200, data, bodyOthe = {} }) => {
+export const answerSuccessfully = ({ ctx, status = 200, data={}, bodyOthe = {} }) => {
     ctx.status = status;
     ctx.body = {
         data,
