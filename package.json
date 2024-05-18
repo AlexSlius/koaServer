@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
-    "dev": "nodemon -L --env-file=./.env src/index.js"
+    "dev": "nodemon -L src/index.js"
   },
   "keywords": [],
   "author": "Alex Sliusarchuk",
@@ -26,6 +26,11 @@
     "sequelize": "^6.37.3"
   },
   "devDependencies": {
+    "@babel/cli": "^7.24.5",
+    "@babel/core": "^7.24.5",
+    "@babel/node": "^7.23.9",
+    "@babel/preset-env": "^7.24.5",
+    "@babel/register": "^7.23.7",
     "nodemon": "^3.1.0"
   }
 }

@@ -1,9 +1,9 @@
-import Router from 'koa-router';
+const Router  = require('koa-router');
 
-import crmRouters from "./crm/index.js";
+const crmRouters  = require("./crm/index.js");
 
 const router = new Router();
 
 router.use('/crm', crmRouters.routes());
 
-export default router;
+module.exports = router;

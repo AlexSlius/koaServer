@@ -1,6 +1,6 @@
-import Router from 'koa-router';
+const Router = require('koa-router');
 
-import userControler from "../../controllers/user.js";
+const userControler = require("../../controllers/user.js");
 
 const usersRouter = new Router();
 
@@ -10,4 +10,4 @@ usersRouter.get('/:id', async (ctx) => {
 });
 usersRouter.post('/', userControler.createUser);
 
-export default usersRouter;
+module.exports = usersRouter;

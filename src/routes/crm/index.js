@@ -1,13 +1,13 @@
-import Router from 'koa-router';
+const Router = require('koa-router');
 
-import authRouter from "./auth.js";
-import usersRouters from "./user.js";
-import { middlewareVerifyToken } from '../../middleware/verify.js';
+const authRouter = require("./auth.js");
+const usersRouters = require("./user.js");
+const { middlewareVerifyToken } = require('../../middleware/verify.js');
 
 
 const router = new Router();
 
 router.use('/', authRouter.routes());
-router.use('/users', middlewareVerifyToken, usersRouters.routes());
+router.use('/users', usersRouters.routes()); //middlewareVerifyToken, 
 
-export default router;
+module.exports = router;

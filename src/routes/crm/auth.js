@@ -1,9 +1,9 @@
-import Router from 'koa-router';
+const Router = require('koa-router');
 
-import { middleWareAuntificate } from '../../middleware/auth.js';
+const { middleWareAuntificate } = require('../../middleware/auth.js');
 
 const authRouter = new Router();
 
 authRouter.post('login', middleWareAuntificate);
 
-export default authRouter;
+module.exports = authRouter;

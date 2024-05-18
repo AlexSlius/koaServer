@@ -1,7 +1,7 @@
-import { errorThrowClient } from "../utils/answer.js";
-import { tokenVerify } from "../utils/jwt.js";
+const { errorThrowClient } = require("../utils/answer.js");
+const { tokenVerify } = require("../utils/jwt.js");
 
-export const middlewareVerifyToken = (ctx, next) => {
+const middlewareVerifyToken = (ctx, next) => {
     const token = ctx.request.headers.authorization?.split(' ')[1];
 
     if (!token) {
@@ -11,4 +11,8 @@ export const middlewareVerifyToken = (ctx, next) => {
     const decoded = tokenVerify(token);
     ctx.state.user = decoded;
     return next();
+}
+
+module.exports = {
+    middlewareVerifyToken
 }

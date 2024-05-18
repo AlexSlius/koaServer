@@ -1,7 +1,9 @@
-import Joi from "joi";
+const Joi = require("joi");
 
-export const schemaCreateUser = Joi.object({
+const schemaCreateUser = Joi.object({
     name: Joi.string().required(),
     lastName: Joi.string().required(),
     age: Joi.number().required()
 })
+
+module.exports = schemaCreateUser;

@@ -1,38 +1,23 @@
-import fs from "fs/promises";
-import { dirname } from "path";
-import { Sequelize, DataTypes } from "sequelize";
-import { fileURLToPath } from 'url';
+const user = require('./user');
+const role = require('./role');
+const city = require('./city');
 
-import { congifDB } from "../../../config/database.js";
+const models = {
+    user,
+    role,
+    city
+};
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const db = {};
-
-const sequelize = new Sequelize(congifDB());
-
-fs.readdir(__dirname)
-    .then(files => {
-        files.filter(file => (
-            file.indexOf('.') !== 0 &&
-            file.slice(-3) === '.js' &&
-            file.indexOf('.test.js') === -1 &&
-            file.indexOf('index.js') === -1
-        ))
-            .forEach(async fileName => {
-                let modelImport = await import(`./${fileName}`);
-                let model = modelImport.default(sequelize, DataTypes);
-                db[model.name] = model;
-            });
-    });
-
-Object.keys(db).forEach(modelName => {
-    if (db[modelName].associate) {
-        db[modelName].associate(db);
+Object.keys(models).forEach(modelName => {
+    if (models[modelName].associate) {
+        models[modelName].associate(models);
     }
 });
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+models.role.hasMany(models.user, { foreignKey: 'roleId' });
+models.user.belongsTo(models.role);
 
-export { db };
+models.city.hasMany(models.user, { foreignKey: 'cityId' });
+models.user.belongsTo(models.city);
+
+module.exports = { models };

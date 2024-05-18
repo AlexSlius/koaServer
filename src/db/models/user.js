@@ -1,34 +1,23 @@
-import { Model } from "sequelize";
+const { Model, DataTypes } = require("sequelize");
 
-export default (sequelize, DataTypes) => {
-    class User extends Model { }
+const db = require("../index");
 
-    User.init(
-        {
-            id: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                autoIncrement: true,
-                primaryKey: true
-            },
-            phoneNumber: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            firstName: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            where: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-        },
-        {
-            sequelize,
-            modelName: 'user',
-        }
-    )
-
-    return User;
+class User extends Model {
 }
+
+const model = User.init({
+  name: DataTypes.STRING,
+  login: DataTypes.STRING,
+  password: DataTypes.STRING,
+  roleId: {
+    type: DataTypes.INTEGER,
+  },
+  cityId: {
+    type: DataTypes.INTEGER,
+  }
+}, {
+  sequelize: db,
+  modelName: 'user',
+});
+
+module.exports = model;

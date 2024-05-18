@@ -1,20 +1,21 @@
-import Koa from "koa";
-import Router from 'koa-router';
-import cors from "@koa/cors";
-import json from "koa-json";
-import { dirname, join } from "path";
-import { fileURLToPath } from 'url';
-import koaStatic from "koa-static";
-import bodyParser from 'koa-bodyparser';
+const Koa = require("koa");
+const dotenv = require("dotenv");
+const Router = require('koa-router');
+const cors = require("@koa/cors");
+const json = require("koa-json");
+const { join } = require("path");
+const koaStatic = require("koa-static");
+const bodyParser = require('koa-bodyparser');
 
-import routersAll from "./routes/index.js";
-import { middleWareError } from "./middleware/error.js";
+const routersAll = require("./routes/index.js");
+const { middleWareError } = require("./middleware/error.js");
+
+
+dotenv.config();
 
 const app = new Koa();
 const router = new Router();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 const staticDir = join(__dirname, '../storage');
 
 app.use(cors());
@@ -30,5 +31,4 @@ app.use(router.routes());
 app.use(router.allowedMethods());
 
 
-
-export default app;
+module.exports = app;

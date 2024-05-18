@@ -1,25 +1,34 @@
-import { answerSuccessfully, errorThrowClient } from "../utils/answer.js";
-import { compareHasPassword } from "../utils/hash-password.js";
-import { tokenSign } from "../utils/jwt.js";
+const { answerSuccessfully, errorThrowClient } = require("../utils/answer.js");
+const { compareHasPassword } = require("../utils/hash-password.js");
+const { tokenSign } = require("../utils/jwt.js");
+const { getUserByLogin } = require("../services/user");
+const { validateAuthLogin } = require("../validation/user.js");
 
-const userData = {
-    id: 1,
-    name: 'Alex',
-    email: 'test@gmail.com',
-    password: "$2a$10$6M6pOBeXrEORzyjI58goFOTPq1wTn1SddcgbMXSsg90hvsr7u75b6"
-}
+const middleWareAuntificate = async (ctx, next) => {
+    const { errorMessage, value } = validateAuthLogin({ data: ctx.request.body });
 
-export const middleWareAuntificate = async (ctx, next) => {
-    const { email, password } = ctx.request.body;
+    if (errorMessage) {
+        return errorThrowClient({ ctx, status: 400, errorMessage: errorMessage });
+    }
 
-    // зробити пошук користувача в базі
-    const user = userData;
+    const user = await getUserByLogin(value.login);
 
-    if (!user || !(await compareHasPassword({ password, hashDb: user.password }))) {
+    if (!user || !(await compareHasPassword({ password: value.password, hashDb: user.password }))) {
         return errorThrowClient({ ctx, status: 401, errorMessage: 'Invalid username or password' });
     }
 
-    const token = tokenSign({ id: user.id });
-    ctx.response.set('Authorization', `Bearer ${token}`);
-    answerSuccessfully({ ctx, data: { token, user } });
+    const token = tokenSign({ id: user.id, role: user.roleId, city: user.cityId });
+
+    answerSuccessfully({
+        ctx, data: {
+            token,
+            user: {
+                name: user.name
+            }
+        }
+    });
+}
+
+module.exports = {
+    middleWareAuntificate
 }

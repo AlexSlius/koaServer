@@ -1,4 +1,4 @@
-export const errorThrowServer = ({ ctx, error }) => {
+const errorThrowServer = ({ ctx, error }) => {
     ctx.status = 500;
     ctx.body = {
         error: true,
@@ -6,7 +6,7 @@ export const errorThrowServer = ({ ctx, error }) => {
     }
 }
 
-export const errorThrowClient = ({ ctx, status = 400, errorMessage }) => {
+const errorThrowClient = ({ ctx, status = 400, errorMessage }) => {
     ctx.status = status;
     ctx.body = {
         error: true,
@@ -14,10 +14,16 @@ export const errorThrowClient = ({ ctx, status = 400, errorMessage }) => {
     };
 }
 
-export const answerSuccessfully = ({ ctx, status = 200, data={}, bodyOthe = {} }) => {
+const answerSuccessfully = ({ ctx, status = 200, data = {}, bodyOthe = {} }) => {
     ctx.status = status;
     ctx.body = {
         data,
         ...bodyOthe
     };
+}
+
+module.exports = {
+    errorThrowServer,
+    errorThrowClient,
+    answerSuccessfully
 }
