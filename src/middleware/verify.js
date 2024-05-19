@@ -9,6 +9,7 @@ const middlewareVerifyToken = (ctx, next) => {
     }
 
     const decoded = tokenVerify(token);
+
     ctx.state.user = decoded;
     return next();
 }

@@ -2,8 +2,12 @@ const Joi = require("joi");
 
 const schemaCreateUser = Joi.object({
     name: Joi.string().required(),
-    lastName: Joi.string().required(),
-    age: Joi.number().required()
+    login: Joi.string().required(),
+    roleId: Joi.number().required(),
+    cityId: Joi.number().required(),
+    password: Joi.string().required()
 })
 
-module.exports = schemaCreateUser;
+module.exports = {
+    schemaCreateUser
+};

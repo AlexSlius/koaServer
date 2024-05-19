@@ -2,9 +2,9 @@ const { answerSuccessfully, errorThrowClient } = require("../utils/answer.js");
 const { compareHasPassword } = require("../utils/hash-password.js");
 const { tokenSign } = require("../utils/jwt.js");
 const { getUserByLogin } = require("../services/user");
-const { validateAuthLogin } = require("../validation/user.js");
+const { validateAuthLogin } = require("../validation/auth.js");
 
-const middleWareAuntificate = async (ctx, next) => {
+const middleWareAuntificate = async (ctx) => {
     const { errorMessage, value } = validateAuthLogin({ data: ctx.request.body });
 
     if (errorMessage) {

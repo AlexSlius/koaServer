@@ -1,10 +1,10 @@
 const { errorHandling } = require("../utils/validation");
-const { schemaLogin } = require("./schemes/auth");
+const { schemaCreateUser } = require("./schemes/user");
 
-const validateAuthLogin = ({ data }) => {
-    return errorHandling(schemaLogin.validate(data));
+const validateCreateUser = ({ data }) => {
+    return errorHandling(schemaCreateUser.validate(data));
 }
 
 module.exports = {
-    validateAuthLogin
+    validateCreateUser
 }

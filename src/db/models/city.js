@@ -13,7 +13,4 @@ const model = City.init({
   modelName: 'city',
 });
 
-// City.hasMany(User(sequelize, DataTypes), { foreignKey: 'cityId' });
-// User(sequelize, DataTypes).belongsTo(City);
-
 module.exports = model;

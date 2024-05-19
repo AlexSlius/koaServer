@@ -1,31 +1,17 @@
 const { answerSuccessfully, errorThrowClient, errorThrowServer } = require("../utils/answer.js");
 const { validateCreateUser } = require("../validation/user.js");
-
-const { models } = require('../db/models')
+const { getUsers, getOneById, createUser, deleteUserById } = require("../services/user.js");
+const { hasPassword } = require("../utils/hash-password.js");
 
 class User {
     async getUsers(ctx) {
-        let dataUser = await models.user.findOne({
-            where: {
-                id: 9
-            },
-            attributes: { exclude: ['createdAt', 'updatedAt'] },
-            include: [
-                {
-                    model: models.role,
-                    attributes: ['name']
-                },
-                {
-                    model: models.city,
-                    attributes: ['name']
-                }
-            ]
-        });
+        let data = await getUsers();
+        answerSuccessfully({ ctx, data: data });
+    }
 
-        ctx.status = 200;
-        ctx.body = {
-            dataUser,
-        };
+    async getOneById(ctx) {
+        let data = await getOneById(ctx.params.id);
+        answerSuccessfully({ ctx, data: data });
     }
 
     async createUser(ctx) {
@@ -36,11 +22,26 @@ class User {
         }
 
         try {
-            const { name, lastName, age } = value;
-            answerSuccessfully({ ctx, data: { name, lastName, age } })
+            const { password, ...other } = value;
+
+            const data = await createUser({
+                password: await hasPassword(password),
+                ...other
+            });
+
+            answerSuccessfully({
+                ctx, data: {
+                    id: data.id
+                }
+            })
         } catch (error) {
             errorThrowServer({ ctx, error });
         }
+    }
+
+    async deleteUser(ctx) {
+        let data = await deleteUserById(ctx.params.id);
+        answerSuccessfully({ ctx, data: !!data });
     }
 }
 
