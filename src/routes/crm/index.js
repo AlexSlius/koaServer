@@ -11,6 +11,6 @@ const router = new Router();
 router.use('/', authRouter.routes());
 router.use('/users', middlewareVerifyToken, usersRouters.routes());
 router.use('/roles', middlewareVerifyToken, rolesRouters.routes());
-router.use('/citys', middlewareVerifyToken, citysRouters.routes());
+router.use('/cities', middlewareVerifyToken, citysRouters.routes());
 
 module.exports = router;

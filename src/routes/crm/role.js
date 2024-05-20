@@ -1,9 +1,11 @@
 const Router = require('koa-router');
 
+const roleControler = require('../../controllers/role');
+
 const router = new Router();
 
-usersRouter.get('/', userControler.getUsers);
-usersRouter.post('/', userControler.createUser);
-usersRouter.delete('/:id', userControler.deleteUser);
+router.get('/', roleControler.getAll);
+router.post('/', roleControler.add);
+router.delete('/:id', roleControler.remove);
 
 module.exports = router;
