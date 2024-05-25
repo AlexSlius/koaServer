@@ -1,7 +1,7 @@
 const { models } = require('../db/models');
 
 const getAll = async () => {
-    return await models.role.find();
+    return await models.role.findAll();
 }
 
 const add = async (data) => {
