@@ -13,6 +13,6 @@ router.use('/', authRouter.routes());
 router.use('/users', middlewareVerifyToken, usersRouters.routes());
 router.use('/roles', middlewareVerifyToken, rolesRouters.routes());
 router.use('/cities', middlewareVerifyToken, citysRouters.routes());
-router.use('/game', middlewareVerifyToken, gameRouters.routes());
+router.use('/games', middlewareVerifyToken, gameRouters.routes());
 
 module.exports = router;

@@ -27,6 +27,11 @@ const getUsers = async () => {
 
 const getOneById = async (id) => {
     return await models.user.findOne({
+        include: [
+            {
+                model: models.city
+            }
+        ],
         where: { id },
         attributes: { exclude: ['createdAt', 'updatedAt', 'password'] },
     })

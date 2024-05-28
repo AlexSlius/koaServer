@@ -10,7 +10,11 @@ const model = Game.init({
   cityId: DataTypes.INTEGER,
   userId: DataTypes.INTEGER,
   image: DataTypes.STRING,
-  description: DataTypes.STRING
+  description: DataTypes.STRING,
+  status: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0
+  }
 }, {
   sequelize: db,
   modelName: 'game',

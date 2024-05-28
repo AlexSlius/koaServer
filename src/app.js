@@ -1,6 +1,7 @@
 const Koa = require("koa");
 const dotenv = require("dotenv");
 const Router = require('koa-router');
+const { koaBody } = require('koa-body');
 const cors = require("@koa/cors");
 const json = require("koa-json");
 const { join } = require("path");
@@ -20,8 +21,15 @@ const staticDir = join(__dirname, '../storage');
 
 app.use(cors());
 app.use(json());
+app.use(koaBody({
+    multipart: true,
+    formidable: {
+        maxFileSize: 20 * 1024 * 1024,
+    }
+}));
 app.use(koaStatic(staticDir));
 app.use(bodyParser());
+
 app.use(middleWareError);
 
 router.use('/api', routersAll.routes());
